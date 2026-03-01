@@ -509,97 +509,96 @@ const MessagesView = ({ onNewMessage }: { onNewMessage: () => void }) => {
   );
 };
 
-const ContactsView = ({ onAddSegment }: { onAddSegment: () => void }) => {
+const ContactsView = ({ onAddSegment, onNewMessage }: { onAddSegment: () => void, onNewMessage: () => void }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="space-y-12">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Contacts</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Manage your audience and segments.</p>
+          <Badge variant="info">My Awesome Company</Badge>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" icon={Upload}>Import CSV</Button>
-          <Button variant="primary" icon={Plus} onClick={() => setIsAddModalOpen(true)}>Add Contact</Button>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm outline-none focus:ring-2 focus:ring-slate-900/10 w-64"
+            />
+          </div>
+          <Button variant="primary" icon={Plus} onClick={onNewMessage}>Send New</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Segments</p>
-            <div className="space-y-2">
-              {mockSegments.map(segment => (
-                <button key={segment.id} className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group">
-                  <span className="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">{segment.name}</span>
-                  <span className="text-xs font-bold text-slate-400">{segment.contactCount}</span>
-                </button>
-              ))}
-              <button 
-                onClick={onAddSegment}
-                className="w-full flex items-center gap-2 p-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
-              >
-                <Plus size={14} /> Create Segment
-              </button>
-            </div>
-          </Card>
+      {/* Groups Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Groups</h2>
+          <button 
+            onClick={onAddSegment}
+            className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+          >
+            <Plus size={16} /> Create Group
+          </button>
         </div>
-
-        <div className="lg:col-span-3">
-          <Card noPadding>
-            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                <input 
-                  type="text" 
-                  placeholder="Search contacts..." 
-                  className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm outline-none focus:ring-2 focus:ring-slate-900/10"
-                />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockSegments.map(segment => (
+            <Card key={segment.id} className="group hover:border-indigo-400 transition-all">
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                  <Users size={24} />
+                </div>
+                <span className="text-xs font-bold text-slate-400">{segment.contactCount} Contacts</span>
               </div>
-              <Button variant="outline" size="sm" icon={Filter}>Filter</Button>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
-                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Joined</th>
-                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {mockContacts.map((contact) => (
-                    <tr key={contact.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-400">
-                            {contact.name.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-slate-900 dark:text-white">{contact.name}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">{contact.email}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <Badge variant={contact.status === 'active' ? 'success' : contact.status === 'bounced' ? 'warning' : 'error'}>
-                          {contact.status}
-                        </Badge>
-                      </td>
-                      <td className="px-6 py-4 text-xs text-slate-400">{format(new Date(contact.createdAt), 'MMM d, yyyy')}</td>
-                      <td className="px-6 py-4 text-right">
-                        <button className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                          <MoreVertical size={18} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
+              <h3 className="font-bold text-slate-900 dark:text-white text-lg">{segment.name}</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-6">Send messages to everyone in this group.</p>
+              <Button variant="outline" className="w-full py-2 text-indigo-600 dark:text-indigo-400 border-indigo-100 dark:border-indigo-500/20 hover:bg-indigo-50 dark:hover:bg-indigo-500/10">
+                View Group
+              </Button>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Contacts Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Contacts</h2>
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+          >
+            <Plus size={16} /> Add Contact
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockContacts.map(contact => (
+            <Card key={contact.id} className="relative group hover:border-indigo-400 transition-all">
+              <div className="absolute top-4 right-4">
+                <Badge variant="info">{contact.id === 'c2' ? 'COMPANY' : 'INDIVIDUAL'}</Badge>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                  {contact.id === 'c2' ? <Building2 size={24} /> : <UserIcon size={24} />}
+                </div>
+                <div className="space-y-1">
+                  <h3 className="font-bold text-slate-900 dark:text-white">{contact.name}</h3>
+                  {contact.id === 'c2' && <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Tech Corp</p>}
+                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <Mail size={12} />
+                    <span>{contact.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <MessageSquare size={12} />
+                    <span>{contact.phone}</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
 
@@ -779,6 +778,7 @@ export default function App() {
   const [isSegmentModalOpen, setIsSegmentModalOpen] = useState(false);
   const [campaignTab, setCampaignTab] = useState<'Single' | 'Bulk Upload' | 'Groups'>('Single');
   const [campaignChannel, setCampaignChannel] = useState<'Email' | 'SMS' | 'Both'>('Email');
+  const [groupTab, setGroupTab] = useState<'Select' | 'Excel'>('Select');
 
   const t = translations[currentLang];
 
@@ -972,7 +972,7 @@ export default function App() {
                 {activeTab === 'overview' && <OverviewView t={t} onNewCampaign={() => setIsCampaignModalOpen(true)} />}
                 {activeTab === 'templates' && <TemplatesView />}
                 {activeTab === 'logs' && <MessagesView onNewMessage={() => setIsCampaignModalOpen(true)} />}
-                {activeTab === 'contacts' && <ContactsView onAddSegment={() => setIsSegmentModalOpen(true)} />}
+                {activeTab === 'contacts' && <ContactsView onAddSegment={() => setIsSegmentModalOpen(true)} onNewMessage={() => setIsCampaignModalOpen(true)} />}
                 {activeTab === 'settings' && <SettingsView />}
               </motion.div>
             </AnimatePresence>
@@ -1078,38 +1078,72 @@ export default function App() {
         </div>
       </Modal>
 
-      {/* Create Segment Modal */}
+      {/* Create Group Modal */}
       <Modal 
         isOpen={isSegmentModalOpen} 
         onClose={() => setIsSegmentModalOpen(false)} 
-        title="Create New Segment"
+        title="Create Group"
       >
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsSegmentModalOpen(false); }}>
-          <Input label="Segment Name" placeholder="e.g. VIP Customers" required />
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Conditions</label>
-            <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl space-y-3">
-              <div className="flex gap-2">
-                <select className="flex-1 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs outline-none dark:text-white">
-                  <option>Email</option>
-                  <option>Joined Date</option>
-                  <option>Status</option>
-                </select>
-                <select className="flex-1 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs outline-none dark:text-white">
-                  <option>contains</option>
-                  <option>is exactly</option>
-                  <option>starts with</option>
-                </select>
-                <input type="text" placeholder="value..." className="flex-1 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs outline-none dark:text-white" />
+        <div className="space-y-6">
+          <Input label="Group Name" placeholder="Enter group name..." required />
+          
+          <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
+            <button
+              onClick={() => setGroupTab('Select')}
+              className={cn(
+                "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all",
+                groupTab === 'Select' 
+                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm" 
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              )}
+            >
+              Select from Contacts
+            </button>
+            <button
+              onClick={() => setGroupTab('Excel')}
+              className={cn(
+                "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all",
+                groupTab === 'Excel' 
+                  ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm" 
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              )}
+            >
+              Create via Excel
+            </button>
+          </div>
+
+          {groupTab === 'Select' ? (
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Select Contacts</p>
+              <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
+                {mockContacts.map(contact => (
+                  <div key={contact.id} className="p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                    <div className="flex-1">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{contact.name}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400">{contact.email}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Button variant="ghost" size="sm" icon={Plus} className="text-indigo-600">Add Condition</Button>
             </div>
-          </div>
-          <div className="pt-4 flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setIsSegmentModalOpen(false)}>Cancel</Button>
-            <Button variant="primary" type="submit">Create Segment</Button>
-          </div>
-        </form>
+          ) : (
+            <div className="space-y-4">
+              <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Upload Excel/CSV</p>
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center hover:border-indigo-400 transition-colors cursor-pointer">
+                <Upload className="mx-auto text-slate-400 mb-2" size={32} />
+                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Click to upload or drag and drop</p>
+              </div>
+              <button className="flex items-center gap-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+                <FileSpreadsheet size={16} /> Download Template
+              </button>
+            </div>
+          )}
+
+          <Button variant="primary" className="w-full py-3 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600" onClick={() => setIsSegmentModalOpen(false)}>
+            Create Group
+          </Button>
+        </div>
       </Modal>
     </div>
   );

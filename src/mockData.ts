@@ -39,25 +39,20 @@ export const mockTemplates: Template[] = [
 ];
 
 export const mockContacts: Contact[] = [
-  { id: 'c1', name: 'John Doe', email: 'john@example.com', status: 'active', createdAt: '2024-01-15' },
-  { id: 'c2', name: 'Jane Smith', email: 'jane@smith.com', status: 'active', createdAt: '2024-01-20' },
-  { id: 'c3', name: 'Bob Wilson', email: 'bob@wilson.org', status: 'unsubscribed', createdAt: '2024-02-01' },
-  { id: 'c4', name: 'Alice Brown', email: 'alice@brown.net', status: 'active', createdAt: '2024-02-10' },
-  { id: 'c5', name: 'Charlie Davis', email: 'charlie@davis.com', status: 'bounced', createdAt: '2024-02-15' },
+  { id: 'c1', name: 'Alice Johnson', email: 'alice@example.com', phone: '+1234567890', status: 'active', createdAt: '2024-01-15' },
+  { id: 'c2', name: 'Tech Corp Admin', email: 'admin@techcorp.com', phone: '+1987654321', status: 'active', createdAt: '2024-01-20' },
+  { id: 'c3', name: 'João Silva', email: 'joao@exemplo.pt', phone: '+351912345678', status: 'bounced', createdAt: '2024-02-01' },
 ];
 
 export const mockLogs: LogEntry[] = [
-  { id: 'l1', recipient: 'john@example.com', subject: 'Welcome Series', status: 'delivered', date: '2024-02-28T10:05:00Z', type: 'email' },
-  { id: 'l2', recipient: 'jane@smith.com', subject: 'Monthly Newsletter', status: 'opened', date: '2024-02-28T11:20:00Z', type: 'email' },
-  { id: 'l3', recipient: '+1234567890', subject: 'OTP Verification', status: 'delivered', date: '2024-02-28T12:00:00Z', type: 'sms' },
-  { id: 'l4', recipient: 'bob@wilson.org', subject: 'Welcome Series', status: 'bounced', date: '2024-02-27T09:00:00Z', type: 'email' },
-  { id: 'l5', recipient: 'alice@brown.net', subject: 'Monthly Newsletter', status: 'spam', date: '2024-02-27T14:30:00Z', type: 'email' },
+  { id: 'l1', recipient: 'alice@example.com', subject: 'Welcome Series', status: 'delivered', date: '2024-02-28T10:05:00Z', type: 'email' },
+  { id: 'l2', recipient: 'admin@techcorp.com', subject: 'Monthly Newsletter', status: 'opened', date: '2024-02-28T11:20:00Z', type: 'email' },
+  { id: 'l3', recipient: '+351912345678', subject: 'OTP Verification', status: 'delivered', date: '2024-02-28T12:00:00Z', type: 'sms' },
 ];
 
 export const mockSegments: Segment[] = [
-  { id: 's1', name: 'Active Users', contactCount: 1250 },
-  { id: 's2', name: 'New Signups', contactCount: 450 },
-  { id: 's3', name: 'VIP Customers', contactCount: 85 },
+  { id: 's1', name: 'VIP Customers', contactCount: 2 },
+  { id: 's2', name: 'Marketing List', contactCount: 1 },
 ];
 
 export const mockTeam: TeamMember[] = [
