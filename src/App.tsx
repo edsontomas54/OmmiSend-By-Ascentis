@@ -46,7 +46,10 @@ import {
   Activity,
   Webhook as WebhookIcon,
   ShieldAlert,
-  Image
+  Image,
+  Check,
+  Star,
+  Shield
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -98,7 +101,7 @@ function cn(...inputs: ClassValue[]) {
 
 // --- Components ---
 
-const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, variant?: 'default' | 'success' | 'warning' | 'error' | 'info' }) => {
+const Badge = ({ children, variant = 'default', className }: { children: React.ReactNode, variant?: 'default' | 'success' | 'warning' | 'error' | 'info', className?: string }) => {
   const variants = {
     default: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
     success: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20',
@@ -108,7 +111,7 @@ const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, v
   };
   
   return (
-    <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider", variants[variant])}>
+    <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block", variants[variant], className)}>
       {children}
     </span>
   );
@@ -766,10 +769,245 @@ const SettingsView = () => {
   );
 };
 
+// --- Landing Page ---
+
+const LandingPage = ({ onLogin, onRegister, isDarkMode, setIsDarkMode }: { onLogin: () => void, onRegister: () => void, isDarkMode: boolean, setIsDarkMode: (v: boolean) => void }) => {
+  const plans = [
+    {
+      name: 'Free',
+      price: '$0',
+      description: 'Perfect for side projects and testing.',
+      features: ['Up to 1,000 emails/mo', '100 SMS/mo', 'Basic templates', 'API access', 'Community support'],
+      cta: 'Get Started',
+      popular: false
+    },
+    {
+      name: 'Pro',
+      price: '$49',
+      description: 'For growing businesses and teams.',
+      features: ['Up to 100,000 emails/mo', '5,000 SMS/mo', 'Advanced builder', 'Priority support', 'Webhooks', 'Team collaboration'],
+      cta: 'Start Free Trial',
+      popular: true
+    },
+    {
+      name: 'Enterprise',
+      price: 'Custom',
+      description: 'Scale without limits.',
+      features: ['Unlimited emails', 'Unlimited SMS', 'Dedicated IP', 'SLA guarantee', 'Custom contracts', 'Account manager'],
+      cta: 'Contact Sales',
+      popular: false
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300">
+      {/* Navbar */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center">
+              <Send className="text-white dark:text-slate-900" size={18} />
+            </div>
+            <span className="font-bold text-xl tracking-tight">OmniSend</span>
+          </div>
+          
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Features</a>
+            <a href="#pricing" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Pricing</a>
+            <a href="#about" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">About</a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button onClick={onLogin} className="text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Login</button>
+            <Button variant="primary" size="sm" onClick={onRegister}>Sign Up</Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="max-w-7xl mx-auto text-center space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Badge variant="info" className="mb-4">New: AI-Powered Campaigns</Badge>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-[1.1]">
+              The modern platform for <span className="text-indigo-600 dark:text-indigo-400">Email & SMS</span> delivery.
+            </h1>
+            <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mt-6">
+              OmniSend helps developers and marketers send transactional and marketing messages with reliability and style.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+              <Button variant="primary" size="lg" className="w-full sm:w-auto px-8" onClick={onRegister}>Start Sending for Free</Button>
+              <Button variant="outline" size="lg" className="w-full sm:w-auto px-8">View Documentation</Button>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-20 relative"
+          >
+            <div className="absolute inset-0 bg-indigo-500/10 blur-3xl rounded-full -z-10"></div>
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden p-4">
+              <img 
+                src="https://picsum.photos/seed/dashboard/1200/600" 
+                alt="Dashboard Preview" 
+                className="w-full h-auto rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24 bg-slate-50 dark:bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Everything you need to scale.</h2>
+            <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-2xl mx-auto">Powerful tools for developers, built with simplicity in mind.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Email Card */}
+            <Card className="p-8 hover:border-indigo-400 transition-all group">
+              <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                <Mail size={24} />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Email Delivery</h3>
+              <p className="text-slate-500 dark:text-slate-400 mb-6">High-deliverability email infrastructure with advanced tracking, templates, and AI-powered optimization.</p>
+              <ul className="space-y-3 mb-8">
+                {['Visual Template Builder', 'Real-time Analytics', 'SMTP & API Support', 'Spam Protection'].map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <Check size={16} className="text-emerald-500" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Button variant="outline" className="w-full">Learn More</Button>
+            </Card>
+
+            {/* SMS Card */}
+            <Card className="p-8 hover:border-indigo-400 transition-all group">
+              <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                <MessageSquare size={24} />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">SMS Messaging</h3>
+              <p className="text-slate-500 dark:text-slate-400 mb-6">Global SMS delivery with support for OTPs, marketing campaigns, and two-way communication.</p>
+              <ul className="space-y-3 mb-8">
+                {['Global Coverage', 'Instant Delivery', 'OTP Verification', 'Shortcodes Support'].map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <Check size={16} className="text-emerald-500" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Button variant="outline" className="w-full">Learn More</Button>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Simple, transparent pricing.</h2>
+            <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-2xl mx-auto">Choose the plan that fits your needs. No hidden fees.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {plans.map((plan, i) => (
+              <Card key={i} className={cn("p-8 flex flex-col relative", plan.popular && "border-indigo-600 dark:border-indigo-500 ring-4 ring-indigo-600/5")}>
+                {plan.popular && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                    Most Popular
+                  </div>
+                )}
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-bold text-slate-900 dark:text-white">{plan.price}</span>
+                    {plan.price !== 'Custom' && <span className="text-slate-500 text-sm">/mo</span>}
+                  </div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-4">{plan.description}</p>
+                </div>
+                <ul className="space-y-4 mb-10 flex-1">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+                      <Check size={18} className="text-indigo-600 dark:text-indigo-400 shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant={plan.popular ? 'primary' : 'outline'} className="w-full py-3" onClick={onRegister}>
+                  {plan.cta}
+                </Button>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 border-t border-slate-100 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12">
+          <div className="col-span-2 md:col-span-1 space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center">
+                <Send className="text-white dark:text-slate-900" size={18} />
+              </div>
+              <span className="font-bold text-xl tracking-tight">OmniSend</span>
+            </div>
+            <p className="text-sm text-slate-500 dark:text-slate-400">The modern platform for email and SMS delivery. Built for developers.</p>
+          </div>
+          
+          <div>
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-4 uppercase tracking-widest">Product</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Features</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Pricing</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">API Docs</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-4 uppercase tracking-widest">Company</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">About</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Blog</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Careers</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white mb-4 uppercase tracking-widest">Legal</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Privacy</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Terms</a></li>
+              <li><a href="#" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">Cookie Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
+          <p className="text-xs text-slate-400">© 2024 OmniSend Inc. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
 // --- Main App ---
 
 export default function App() {
-  const [authView, setAuthView] = useState<'login' | 'register' | 'forgot' | null>('login');
+  const [authView, setAuthView] = useState<'landing' | 'login' | 'register' | 'forgot' | null>('landing');
   const [activeTab, setActiveTab] = useState<'overview' | 'templates' | 'logs' | 'contacts' | 'settings'>('overview');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -791,6 +1029,10 @@ export default function App() {
     }
   }, [isDarkMode]);
 
+  if (authView === 'landing') {
+    return <LandingPage onLogin={() => setAuthView('login')} onRegister={() => setAuthView('register')} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />;
+  }
+
   if (authView) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4">
@@ -800,9 +1042,12 @@ export default function App() {
           className="w-full max-w-md space-y-8"
         >
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-900 dark:bg-white rounded-2xl shadow-xl mb-6">
+            <button 
+              onClick={() => setAuthView('landing')}
+              className="inline-flex items-center justify-center w-16 h-16 bg-slate-900 dark:bg-white rounded-2xl shadow-xl mb-6 hover:scale-105 transition-transform"
+            >
               <Send className="text-white dark:text-slate-900" size={32} />
-            </div>
+            </button>
             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
               {authView === 'login' && 'Welcome Back'}
               {authView === 'register' && 'Create Account'}
