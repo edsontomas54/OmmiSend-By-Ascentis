@@ -39,15 +39,15 @@ export const mockTemplates: Template[] = [
 ];
 
 export const mockContacts: Contact[] = [
-  { id: 'c1', name: 'Alice Johnson', email: 'alice@example.com', phone: '+1234567890', status: 'active', createdAt: '2024-01-15' },
-  { id: 'c2', name: 'Tech Corp Admin', email: 'admin@techcorp.com', phone: '+1987654321', status: 'active', createdAt: '2024-01-20' },
-  { id: 'c3', name: 'João Silva', email: 'joao@exemplo.pt', phone: '+351912345678', status: 'bounced', createdAt: '2024-02-01' },
+  { id: 'c1', name: 'Alice Johnson', email: 'alice@example.com', phone: '+1234567890', avatar: 'https://i.pravatar.cc/150?u=alice', status: 'active', createdAt: '2024-01-15' },
+  { id: 'c2', name: 'Tech Corp Admin', email: 'admin@techcorp.com', phone: '+1987654321', avatar: 'https://i.pravatar.cc/150?u=tech', status: 'active', createdAt: '2024-01-20' },
+  { id: 'c3', name: 'João Silva', email: 'joao@exemplo.pt', phone: '+351912345678', avatar: 'https://i.pravatar.cc/150?u=joao', status: 'bounced', createdAt: '2024-02-01' },
 ];
 
 export const mockLogs: LogEntry[] = [
-  { id: 'l1', recipient: 'alice@example.com', subject: 'Welcome Series', status: 'delivered', date: '2024-02-28T10:05:00Z', type: 'email' },
-  { id: 'l2', recipient: 'admin@techcorp.com', subject: 'Monthly Newsletter', status: 'opened', date: '2024-02-28T11:20:00Z', type: 'email' },
-  { id: 'l3', recipient: '+351912345678', subject: 'OTP Verification', status: 'delivered', date: '2024-02-28T12:00:00Z', type: 'sms' },
+  { id: 'l1', recipient: 'alice@example.com', recipientAvatar: 'https://i.pravatar.cc/150?u=alice', subject: 'Welcome Series', status: 'delivered', date: '2024-02-28T10:05:00Z', type: 'email' },
+  { id: 'l2', recipient: 'admin@techcorp.com', recipientAvatar: 'https://i.pravatar.cc/150?u=tech', subject: 'Monthly Newsletter', status: 'opened', date: '2024-02-28T11:20:00Z', type: 'email' },
+  { id: 'l3', recipient: '+351912345678', recipientAvatar: 'https://i.pravatar.cc/150?u=joao', subject: 'OTP Verification', status: 'delivered', date: '2024-02-28T12:00:00Z', type: 'sms' },
 ];
 
 export const mockSegments: Segment[] = [

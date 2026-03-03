@@ -39,6 +39,7 @@ export interface Contact {
   name: string;
   email: string;
   phone?: string;
+  avatar?: string;
   status: 'active' | 'unsubscribed' | 'bounced';
   createdAt: string;
 }
@@ -56,6 +57,7 @@ export interface Template {
 export interface LogEntry {
   id: string;
   recipient: string;
+  recipientAvatar?: string;
   subject: string;
   status: MessageStatus;
   date: string;
